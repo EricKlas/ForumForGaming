@@ -1,0 +1,45 @@
+﻿@page
+@model ForumForGaming.Pages.Admin.AdminCreateModel
+@{
+    ViewData["Title"] = "Admin Create";
+}
+
+@if (Model.AddItem == "Main")
+{
+    <div>
+        <form method="post">
+            <label asp-for="MainCategory.Name"></label>
+            <br />
+            <input asp-for="MainCategory.Name" />
+            <br />
+            <label asp-for="MainCategory.Description"></label>
+            <br />
+            <input asp-for="MainCategory.Description" />
+            <br />
+            <input type="submit" name="add" class="btn btn-success" value="Create Maincategory" />
+        </form>
+    </div>
+}
+else if (Model.AddItem == "Sub")
+{
+    <form method="post" enctype="multipart/form-data">
+        <label asp-for="SubCategory.Name"></label>
+        <br />
+        <input asp-for="SubCategory.Name" />
+        <br />
+        <select asp-for="SubCategory.MainCategoryId" name="SubCategory.MainCategoryId">
+            <option value="">Select a category</option>
+            @foreach (var category in Model.MainCategories)
+            {
+                <option value="@category.Id">@category.Name</option>
+            }
+        </select>
+        <br />
+        <input type="submit" name="add" class="btn btn-success" value="Create SubCategory" />
+    </form>
+}
+else
+{
+    <a asp-route-CreateItem="Main"><label>Create a Main Category</label></a>
+    <a asp-route-CreateItem="Sub"><label>Create a Sub Category</label></a>
+}

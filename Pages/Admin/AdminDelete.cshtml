@@ -1,0 +1,39 @@
+﻿@page
+@model ForumForGaming.Pages.Admin.AdminDeleteModel
+@{
+}
+@if (Model.DeleteItem == "Main")
+{
+    <div>
+        <form method="post">
+            <select asp-for="MainCategoryId" name="MainCategoryId">
+                <option value="">Select a category</option>
+                @foreach (var category in Model.MainCategories)
+                {
+                    <option value="@category.Id">@category.Name</option>
+                }
+            </select>
+            <br />
+            <input type="submit" name="delete" class="btn btn-success" value="Archive MainCategory" />
+        </form>
+    </div>
+}
+else if (Model.DeleteItem == "Sub")
+{
+    <form method="post">
+        <select asp-for="SubCategoryId" name="SubCategoryId">
+            <option value="">Select a category</option>
+            @foreach (var category in Model.SubCategories)
+            {
+                <option value="@category.Id">@category.Name</option>
+            }
+        </select>
+        <br />
+        <input type="submit" name="delete" class="btn btn-success" value="Archive SubCategory" />
+    </form>
+}
+else
+{
+    <a asp-route-CreateItem="Main"><label>Delete a Main Category</label></a>
+    <a asp-route-CreateItem="Sub"><label>Delete a Sub Category</label></a>
+}
