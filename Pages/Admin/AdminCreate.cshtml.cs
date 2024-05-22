@@ -1,4 +1,5 @@
 using ForumForGaming.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -6,6 +7,8 @@ using System.Security.Claims;
 
 namespace ForumForGaming.Pages.Admin
 {
+
+    [Authorize(Roles = "Admin")]
     public class AdminCreateModel : PageModel
     {
         private readonly Data.ApplicationDbContext _context;

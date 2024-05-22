@@ -1,10 +1,13 @@
 using ForumForGaming.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 
 namespace ForumForGaming.Pages.Admin
 {
+
+    [Authorize(Roles = "Admin")]
     public class AdminDeleteModel : PageModel
     {
         private readonly Data.ApplicationDbContext _context;
