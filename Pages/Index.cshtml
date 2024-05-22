@@ -28,7 +28,7 @@
                         @comment.TextContent
                     </div>
                     <br />
-                    @if (comment.TextContent == "Comment has been deleted by user!")
+                    @if (comment.TextContent == "Comment has been deleted by user!" || comment.TextContent == "Comment has been deleted!")
                     {
                         <label>Deleted User</label>
                     }
@@ -38,14 +38,21 @@
                         <label>@commentUser.Email</label>
                     }
                     <br />
-                    @if (user != null && user.Id == comment.UserId)
+                    @if (comment.TextContent == "Comment has been deleted by user!" || comment.TextContent == "Comment has been deleted!")
                     {
-                        <a asp-route-deleteCommentId="@comment.Id" class="btn btn-primary">Ta bort</a>
+                        
                     }
-                    @if (user != null)
+                    else
                     {
-                        <a asp-page="./Index" asp-route-postId="@Model.Post.Id" asp-route-replayTextId="@comment.Id" class="btn btn-primary">Reply</a>
-                        <a asp-route-reportCommentId="@comment.Id" class="btn btn-primary">Report Comment</a>
+                        @if (user != null && user.Id == comment.UserId)
+                        {
+                            <a asp-route-deleteCommentId="@comment.Id" class="btn btn-primary">Ta bort</a>
+                        }
+                        @if (user != null)
+                        {
+                            <a asp-page="./Index" asp-route-postId="@Model.Post.Id" asp-route-replayTextId="@comment.Id" class="btn btn-primary">Reply</a>
+                            <a asp-route-reportCommentId="@comment.Id" class="btn btn-primary">Report Comment</a>
+                        }
                     }
                 }
             </div>
@@ -85,7 +92,7 @@ else if (Model.SubCategory != null)
                     <a asp-route-postId="@post.Id"><label>@post.Title</label></a>
                 }
             </div>
-            @if (user != null && user.Id == post.UserId)
+            @if (user != null && user.Id == post.UserId && post.SubCategoryId == Model.SubCategory.Id)
             {
                 <a asp-route-deletePostId="@post.Id" class="btn btn-primary">Ta bort</a>
             }

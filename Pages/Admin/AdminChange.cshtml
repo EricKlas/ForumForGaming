@@ -14,10 +14,43 @@
             <label asp-for="MainCategory.Description"></label>
             <br />
             <input asp-for="MainCategory.Description" value="@Model.MainCategory.Description"/>
+            <input asp-for="MainCategory.Id" type="hidden"/>
+            <br />
+            <label asp-for="MainCategory.Archived"></label>
+            <select asp-for="MainCategory.Archived" class="form-control">
+                <option value="true">True</option>
+                <option value="false">False</option>
+            </select>
             <br />
             <input type="submit" name="change" class="btn btn-success" value="Change Maincategory" />
         </form>
     </div>
+}
+else if (Model.SubCategory != null)
+{
+    <form method="post">
+        <label asp-for="SubCategory.Name"></label>
+        <br />
+        <input asp-for="SubCategory.Name" value="@Model.SubCategory.Name"/>
+        <br />
+        <label asp-for="SubCategory.MainCategoryId"></label>
+        <select asp-for="SubCategory.MainCategoryId">
+            <option value="">Select a category</option>
+            @foreach (var category in Model.MainCategories)
+            {
+                <option value="@category.Id">@category.Name</option>
+            }
+        </select>
+        <input asp-for="SubCategory.Id" type="hidden"/>
+        <br />
+        <label asp-for="SubCategory.Archived"></label>
+        <select asp-for="SubCategory.Archived" class="form-control">
+            <option value="true">True</option>
+            <option value="false">False</option>
+        </select>
+        <br />
+        <input type="submit" name="change" class="btn btn-success" value="Change SubCategory" />
+    </form>
 }
 else if (Model.ChangeItem == "Main")
 {
@@ -25,25 +58,17 @@ else if (Model.ChangeItem == "Main")
     {
         <label>@category.Name</label>
         <a asp-route-mainCategoryId="@category.Id">Change Category</a>
+    <br />
     }
 }
 else if (Model.ChangeItem == "Sub")
 {
-    <form method="post" enctype="multipart/form-data">
-        <label asp-for="SubCategory.Name"></label>
-        <br />
-        <input asp-for="SubCategory.Name" />
-        <br />
-        <select asp-for="SubCategory.MainCategoryId" name="SubCategory.MainCategoryId">
-            <option value="">Select a category</option>
-            @foreach (var category in Model.MainCategories)
-            {
-                <option value="@category.Id">@category.Name</option>
-            }
-        </select>
-        <br />
-        <input type="submit" name="change" class="btn btn-success" value="Change SubCategory" />
-    </form>
+    @foreach(var category in Model.SubCategories)
+    {
+        <label>@category.Name</label>
+
+        <a asp-route-subCategoryId="@category.Id">Change Category</a>
+    }
 }
 else
 {

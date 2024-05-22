@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using NuGet.Configuration;
 
 namespace ForumForGaming.Pages.Admin
 {
@@ -26,19 +25,37 @@ namespace ForumForGaming.Pages.Admin
         public SubCategory SubCategory { get; set; }
         public string? ChangeItem { get; set; }
 
-            public async Task OnGetAsync(string changeItem)
+        public async Task OnGetAsync(string changeItem, int mainCategoryId, int subCategoryId)
         {
             MainCategories = await _context.MainCategory.ToListAsync();
             SubCategories = await _context.SubCategory.ToListAsync();
 
-            if (ChangeItem != null)
+            MainCategory = await _context.MainCategory.FindAsync(mainCategoryId);
+            SubCategory = await _context.SubCategory.FindAsync(subCategoryId);
+            if (changeItem != null)
             {
-                ChangeItem = ChangeItem;
+                ChangeItem = changeItem;
             }
             else
             {
                 ChangeItem = null;
             }
+        }
+
+        public async Task<IActionResult> OnPostAsync(string change)
+        {
+            if (change == "Change Maincategory")
+            {
+                _context.MainCategory.Update(MainCategory);
+                await _context.SaveChangesAsync();
+            }
+            else if (change == "Change SubCategory")
+            {
+                _context.SubCategory.Update(SubCategory);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToPage("/Admin/AdminChange");
         }
     }
 }

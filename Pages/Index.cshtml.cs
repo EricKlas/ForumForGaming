@@ -36,7 +36,7 @@ namespace ForumForGaming.Pages
                 var postToBeDeleted = await _context.Post.FindAsync(deletePostId);
                 if (postToBeDeleted != null)
                 {
-                    postToBeDeleted.Archived = true;
+                    _context.Post.Remove(postToBeDeleted);
                     await _context.SaveChangesAsync();
                 }
             }

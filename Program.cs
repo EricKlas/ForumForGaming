@@ -10,7 +10,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddRazorPages();
@@ -39,7 +39,6 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 
-// Seed roles and users
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
@@ -64,7 +63,6 @@ async Task CreateRolesAndUsers(RoleManager<IdentityRole> roleManager, UserManage
         }
     }
 
-    // Assign Admin role to a specific user (replace with your admin email)
     var adminEmail = "admin@admin.com";
     var adminUser = await userManager.FindByEmailAsync(adminEmail);
     if (adminUser == null)
@@ -78,7 +76,6 @@ async Task CreateRolesAndUsers(RoleManager<IdentityRole> roleManager, UserManage
     }
     else
     {
-        // Ensure the user has the admin role
         var isAdmin = await userManager.IsInRoleAsync(adminUser, "Admin");
         if (!isAdmin)
         {
