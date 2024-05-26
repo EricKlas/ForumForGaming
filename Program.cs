@@ -1,4 +1,5 @@
 using ForumForGaming.Data;
+using ForumForGaming.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,7 +11,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddRazorPages();
@@ -43,13 +44,13 @@ using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-    var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
+    var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
     CreateRolesAndUsers(roleManager, userManager).Wait();
 }
 
 app.Run();
 
-async Task CreateRolesAndUsers(RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager)
+async Task CreateRolesAndUsers(RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
 {
     string[] roleNames = { "Admin", "User" };
     IdentityResult roleResult;
@@ -64,10 +65,11 @@ async Task CreateRolesAndUsers(RoleManager<IdentityRole> roleManager, UserManage
     }
 
     var adminEmail = "admin@admin.com";
+    var adminUsername = "admin";
     var adminUser = await userManager.FindByEmailAsync(adminEmail);
     if (adminUser == null)
     {
-        adminUser = new IdentityUser { UserName = adminEmail, Email = adminEmail };
+        adminUser = new ApplicationUser { UserName = adminUsername, Email = adminEmail };
         var createPowerUser = await userManager.CreateAsync(adminUser, "Admin123!");
         if (createPowerUser.Succeeded)
         {

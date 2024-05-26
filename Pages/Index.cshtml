@@ -1,7 +1,8 @@
 ﻿@page
+@using Models;
 @model IndexModel
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 
 @{
     ViewData["Title"] = "Home page";
@@ -31,19 +32,16 @@
                     @if (comment.TextContent == "Comment has been deleted by user!" || comment.TextContent == "Comment has been deleted!")
                     {
                         <label>Deleted User</label>
+                        <label>| @comment.Date</label>
                     }
                     else
                     {
                         var commentUser = await UserManager.FindByIdAsync(comment.UserId);
-                        <label>@commentUser.Email</label>
-                    }
-                    <br />
-                    @if (comment.TextContent == "Comment has been deleted by user!" || comment.TextContent == "Comment has been deleted!")
-                    {
-                        
-                    }
-                    else
-                    {
+                        <label>@commentUser.UserName</label>
+                        <label>| @comment.Date</label>
+
+                        <br />
+
                         @if (user != null && user.Id == comment.UserId)
                         {
                             <a asp-route-deleteCommentId="@comment.Id" class="btn btn-primary">Ta bort</a>
@@ -90,12 +88,19 @@ else if (Model.SubCategory != null)
                 @if (post.SubCategoryId == Model.SubCategory.Id)
                 {
                     <a asp-route-postId="@post.Id"><label>@post.Title</label></a>
+                    var postUser = await UserManager.FindByIdAsync(post.UserId);
+                    <label> | @postUser.UserName</label>
+                    <label> | Created on: @post.CreatedDate</label>
+                }
+                @if (user != null && user.Id == post.UserId && post.SubCategoryId == Model.SubCategory.Id)
+                {
+                    <a asp-route-deletePostId="@post.Id" class="btn btn-primary">Ta bort</a>
+                }
+                @if (user != null)
+                {
+                    <a asp-route-reportPostId="@post.Id" class="btn btn-primary">Report Post</a>
                 }
             </div>
-            @if (user != null && user.Id == post.UserId && post.SubCategoryId == Model.SubCategory.Id)
-            {
-                <a asp-route-deletePostId="@post.Id" class="btn btn-primary">Ta bort</a>
-            }
         }
     </div>
 }

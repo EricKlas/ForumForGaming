@@ -5,39 +5,47 @@
 }
 @if (Model.ReportedCategory == "Comment")
 {
-    @foreach (var reported in Model.Comments)
+    <h3>Reported Comments:</h3>
+    @foreach (var reported in Model.Comments) 
     {
-        var commentUser = await UserManager.FindByIdAsync(reported.UserId);
-        <label>@reported.TextContent</label>
-        <br />
-        <label>@commentUser.Email</label>
-        <br />
-        <label>@reported.Date</label>
-        <br />
+        if(reported.Reported == true)
+        {
+            var commentUser = await UserManager.FindByIdAsync(reported.UserId);
+            <label>@reported.TextContent</label>
+            <br />
+            <label>@commentUser.Email</label>
+            <br />
+            <label>@reported.Date</label>
+            <br />
 
-        <form method="post">
-            <input type="hidden" name="CommentId" value="@reported.Id" />
-            <input type="submit" name="reported" class="btn btn-success" value="Ignore" />
-            <input type="submit" name="reported" class="btn btn-success" value="Delete" />
-        </form>
+            <form method="post">
+                <input type="hidden" name="CommentId" value="@reported.Id" />
+                <input type="submit" name="reported" class="btn btn-success" value="Ignore" />
+                <input type="submit" name="reported" class="btn btn-success" value="Delete" />
+            </form>
+        }
     }
 }
 else if (Model.ReportedCategory == "Post")
 {
+    <h3>Reported post:</h3>
     @foreach (var reported in Model.Posts)
     {
-        var postUser = await UserManager.FindByIdAsync(reported.UserId);
-        <label>@reported.Title</label>
-        <br />
-        <label>@postUser.Email</label>
-        <br />
-        <label>@reported.CreatedDate</label>
+        if(reported.Reported == true)
+        {
+            var postUser = await UserManager.FindByIdAsync(reported.UserId);
+            <label>@reported.Title</label>
+            <br />
+            <label>@postUser.Email</label>
+            <br />
+            <label>@reported.CreatedDate</label>
 
-        <form method="post">
-            <input type="hidden" name="PostId" value="@reported.Id" />
-            <input type="submit" name="reported" class="btn btn-success" value="Ignore" />
-            <input type="submit" name="reported" class="btn btn-success" value="Delete" />
-        </form>
+            <form method="post">
+                <input type="hidden" name="PostId" value="@reported.Id" />
+                <input type="submit" name="reported" class="btn btn-success" value="Ignore" />
+                <input type="submit" name="reported" class="btn btn-success" value="Delete" />
+            </form>
+        }
     }
 }
 

@@ -29,7 +29,7 @@ namespace ForumForGaming.Pages
         [BindProperty]
         public Comment Comment { get; set; }
 
-        public async Task OnGetAsync(int subCategoryId, int postId, int deletePostId, int deleteCommentId, int reportCommentId, int replayTextId)
+        public async Task OnGetAsync(int subCategoryId, int postId, int deletePostId, int deleteCommentId, int reportCommentId, int replayTextId, int reportPostId)
         {
             if (deletePostId != 0)
             {
@@ -57,6 +57,16 @@ namespace ForumForGaming.Pages
                 if (commentToBeReported != null)
                 {
                     commentToBeReported.Reported = true;
+                    await _context.SaveChangesAsync();
+                }
+            }
+            
+            if (reportPostId != 0)
+            {
+                var postTobeReported = await _context.Post.FindAsync(reportPostId);
+                if(postTobeReported != null)
+                {
+                    postTobeReported.Reported = true;
                     await _context.SaveChangesAsync();
                 }
             }
