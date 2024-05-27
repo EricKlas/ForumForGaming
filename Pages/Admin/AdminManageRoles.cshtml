@@ -1,4 +1,31 @@
 ﻿@page
+@using Models;
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 @model ForumForGaming.Pages.Admin.AdminManageRolesModel
 @{
+}
+@if (@Model.ChangeAdmin == "RemoveAdmin")
+{
+    <ul>
+        @foreach (var user in Model.AdminUsers)
+        {
+            <li>@user.UserName (@user.Email)</li>
+            <li><a asp-route-removeAdmin="@user.Id">Remove Admin</a></li>
+        }
+    </ul>
+}
+else if (@Model.ChangeAdmin == "AddAdmin")
+{
+    <form method="post">
+        <label asp-for="@Model.UserEmail"></label>
+        <input asp-for="@Model.UserEmail"/>
+        <input type="submit" class="btn btn-success" value="Add admin" />
+    </form>
+}
+
+else
+{
+    <a asp-route-changeUser="RemoveAdmin"><label>Remove an admin user</label></a>
+    <a asp-route-changeUser="AddAdmin"><label>Add a new admin user</label></a>
 }
