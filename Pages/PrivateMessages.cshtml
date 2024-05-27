@@ -1,0 +1,61 @@
+﻿@page
+@model ForumForGaming.Pages.PrivateMessagesModel
+@using ForumForGaming.Models
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    var user = await UserManager.GetUserAsync(User);
+}
+
+@if (Model.PrivateMessage != null)
+{
+    var sender = await UserManager.FindByIdAsync(Model.PrivateMessage.SenderId);
+    var reciver = await UserManager.FindByIdAsync(Model.PrivateMessage.ReciverId);
+
+    <h2>@Model.PrivateMessage.Title</h2>
+    <label>@Model.PrivateMessage.Date</label>
+
+    <label>Sender: @sender.UserName</label>
+    <label>Receiver: @reciver.UserName</label>
+    <br />
+
+    <label>@Model.PrivateMessage.TextContent</label>
+}
+else if (Model.SendMessage)
+{
+    <form method="post">
+        <label asp-for="PrivateMessage.Title"></label>
+        <input asp-for="PrivateMessage.Title" />
+
+        <label asp-for="PrivateMessage.TextContent"></label>
+        <input asp-for="PrivateMessage.TextContent" />
+
+        <label asp-for="PrivateMessage.ReciverId">To: </label>
+        <input asp-for="PrivateMessage.ReciverId" />
+
+        <input type="hidden" name="SenderId" value="@user.Id" />
+        <input type="submit" class="btn btn-success" value="Send Message" />
+    </form>
+}
+else
+{
+    <a asp-route-sendMessage="True">Create a Private Message</a>
+    <br />
+    @foreach (var message in Model.PrivateMessages)
+    {
+        if (message.ReciverId == user.Id)
+        {
+            var sender = await UserManager.FindByIdAsync(message.SenderId);
+            <a asp-route-PrivateMessageId="@message.Id"><label>@message.Title</label></a>
+            <lable>from @sender.UserName on @message.Date</lable>
+        }
+        else if (message.SenderId == user.Id)
+        {
+            var reciver = await UserManager.FindByIdAsync(message.ReciverId);
+            <a asp-route-PrivateMessageId="@message.Id"><label>@message.Title</label></a>
+            <lable>from @reciver.UserName on @message.Date</lable>
+        }
+        <br />
+    }
+}

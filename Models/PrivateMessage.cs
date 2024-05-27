@@ -3,10 +3,10 @@
     public class PrivateMessage
     {
         public int Id { get; set; }
+        public string Title { get; set; }
         public string TextContent { get; set; }
         public DateTime Date { get; set; }
-        public bool Reported { get; set; }
-        public int ReciverId { get; set; }
-        public int SenderId { get; set; }
+        public string ReciverId { get; set; }
+        public string SenderId { get; set; }
     }
 }
