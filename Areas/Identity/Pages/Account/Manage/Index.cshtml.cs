@@ -4,6 +4,7 @@
 
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Drawing;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using ForumForGaming.Models;
@@ -59,6 +60,9 @@ namespace ForumForGaming.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+
+            [Display(Name = "Profile Picture")]
+            public IFormFile ProfilePicture { get; set; }
         }
 
         private async Task LoadAsync(ApplicationUser user)
@@ -107,6 +111,36 @@ namespace ForumForGaming.Areas.Identity.Pages.Account.Manage
                 if (!setPhoneResult.Succeeded)
                 {
                     StatusMessage = "Unexpected error when trying to set phone number.";
+                    return RedirectToPage();
+                }
+            }
+
+            if (Input.ProfilePicture != null)
+            {
+                Random rnd = new();
+                var fileName = Path.GetFileNameWithoutExtension(Input.ProfilePicture.FileName) + rnd.Next(0, 100000).ToString() + Path.GetExtension(Input.ProfilePicture.FileName);
+                var filePath = Path.Combine("wwwroot/ProfileImages/", fileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await Input.ProfilePicture.CopyToAsync(fileStream);
+                }
+
+                if (!string.IsNullOrEmpty(user.ProfilePicture) && user.ProfilePicture != "DefaultImage.jpg")
+                {
+                    var oldFilePath = Path.Combine("wwwroot/ProfileImages/", user.ProfilePicture);
+                    if (System.IO.File.Exists(oldFilePath))
+                    {
+                        System.IO.File.Delete(oldFilePath);
+                    }
+                }
+
+                user.ProfilePicture = fileName;
+                var result = await _userManager.UpdateAsync(user);
+
+                if (!result.Succeeded)
+                {
+                    StatusMessage = "Unexpected error when trying to set profile picture.";
                     return RedirectToPage();
                 }
             }

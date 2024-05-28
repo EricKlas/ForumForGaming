@@ -48,13 +48,13 @@ else
         {
             var sender = await UserManager.FindByIdAsync(message.SenderId);
             <a asp-route-PrivateMessageId="@message.Id"><label>@message.Title</label></a>
-            <lable>from @sender.UserName on @message.Date</lable>
+            <lable>från @sender.UserName Skickat: @message.Date</lable>
         }
         else if (message.SenderId == user.Id)
         {
             var reciver = await UserManager.FindByIdAsync(message.ReciverId);
             <a asp-route-PrivateMessageId="@message.Id"><label>@message.Title</label></a>
-            <lable>from @reciver.UserName on @message.Date</lable>
+            <lable>till @reciver.UserName skickat: @message.Date</lable>
         }
         <br />
     }

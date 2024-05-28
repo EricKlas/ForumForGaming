@@ -162,7 +162,7 @@ namespace ForumForGaming.Areas.Identity.Pages.Account
             try
             {
                 var user = Activator.CreateInstance<ApplicationUser>();
-                user.ProfilePicture = "/Profileimages/DefaultImage.jpg";
+                user.ProfilePicture = "DefaultImage.jpg";
                 return user;
             }
             catch

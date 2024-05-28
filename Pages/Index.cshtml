@@ -37,6 +37,7 @@
                     else
                     {
                         var commentUser = await UserManager.FindByIdAsync(comment.UserId);
+                        <img class="card-img-top" src="~/profileImages/@commentUser.ProfilePicture" />
                         <label>@commentUser.UserName</label>
                         <label>| @comment.Date</label>
 

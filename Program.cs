@@ -66,10 +66,11 @@ async Task CreateRolesAndUsers(RoleManager<IdentityRole> roleManager, UserManage
 
     var adminEmail = "admin@admin.com";
     var adminUsername = "admin";
+    var profilePicture = "DefaultImage.jpg";
     var adminUser = await userManager.FindByEmailAsync(adminEmail);
     if (adminUser == null)
     {
-        adminUser = new ApplicationUser { UserName = adminUsername, Email = adminEmail };
+        adminUser = new ApplicationUser { UserName = adminUsername, Email = adminEmail , ProfilePicture = profilePicture};
         var createPowerUser = await userManager.CreateAsync(adminUser, "Admin123!");
         if (createPowerUser.Succeeded)
         {
