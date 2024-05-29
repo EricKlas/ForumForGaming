@@ -97,7 +97,7 @@ namespace ForumForGaming.Pages
             {
                 case "Post Comment":
                     Comment.Reported = false;
-                    Comment.Date = DateTime.Now;
+                    Comment.CreatedDate = DateTime.Now;
                     Comment.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                     Comment.PostId = postId;
                     if (replyToId != null)

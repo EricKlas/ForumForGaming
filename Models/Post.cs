@@ -8,6 +8,5 @@
         public bool Reported { get; set; }
         public int SubCategoryId { get; set; }
         public string? UserId { get; set; }
-        public bool? Archived { get; set; }
     }
 }
