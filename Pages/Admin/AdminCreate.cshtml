@@ -8,9 +8,9 @@
 {
     <div>
         <form method="post">
-            <label asp-for="MainCategory.Name"></label>
+            <label asp-for="MainCategory.Title"></label>
             <br />
-            <input asp-for="MainCategory.Name" />
+            <input asp-for="MainCategory.Title" />
             <br />
             <label asp-for="MainCategory.Description"></label>
             <br />
@@ -31,7 +31,7 @@ else if (Model.AddItem == "Sub")
             <option value="">Select a category</option>
             @foreach (var category in Model.MainCategories)
             {
-                <option value="@category.Id">@category.Name</option>
+                <option value="@category.Id">@category.Title</option>
             }
         </select>
         <br />
