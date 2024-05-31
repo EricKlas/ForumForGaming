@@ -11,62 +11,70 @@
 
 @if (Model.Post != null)
 {
-    <div class="">
+    <div class="card">
         <div class="card-header">
             <h2>@Model.Post.Title</h2>
         </div>
-        @foreach (var comment in Model.Comments)
-        {
-            <div class="">
-                @if (comment.PostId == Model.Post.Id)
+        <ul class="list-group list-group-flush">
+            @foreach (var comment in Model.Comments)
+            {
+                if (comment.PostId == Model.Post.Id)
                 {
                     var replaytext = Model.Comments.FirstOrDefault(c => c.Id == comment.ReplyToId);
-                    <div class="comment-text">
+                    <li class="list-group-item">
                         @if (replaytext != null)
                         {
-                            <div class="reply-to">@replaytext.TextContent</div>
+                            var replayUser = await UserManager.FindByIdAsync(replaytext.UserId);
+                            <span class="list-group-item gray-background">
+                                @replaytext.TextContent
+                                <label>: </label>
+                                @replayUser.UserName
+                                |
+                                @replaytext.CreatedDate
+                            </span>
                         }
-                        @comment.TextContent
-                    </div>
-                    <br />
-                    @if (comment.TextContent == "Comment has been deleted by user!" || comment.TextContent == "Comment has been deleted!")
-                    {
-                        <label>Deleted User</label>
-                        <label>| @comment.CreatedDate</label>
-                    }
-                    else
-                    {
-                        var commentUser = await UserManager.FindByIdAsync(comment.UserId);
-                        <img class="card-img-top" src="~/profileImages/@commentUser.ProfilePicture" />
-                        <label>@commentUser.UserName</label>
-                        <label>| @comment.CreatedDate</label>
-
                         <br />
+                        <div class="bg-light p-3 rounded border">@comment.TextContent</div>
+                        <br />
+                            @if (comment.TextContent == "Comment has been deleted by user!" || comment.TextContent == "Comment has been deleted!")
+                            {
+                                <label>Deleted User</label>
+                                <label>| @comment.CreatedDate</label>
+                            }
+                            else
+                            {
+                                var commentUser = await UserManager.FindByIdAsync(comment.UserId);
+                                <img class="card-img-top profile-border" src="~/profileImages/@commentUser.ProfilePicture" />
+                                <label>@commentUser.UserName</label>
+                                <label>| @comment.CreatedDate</label>
+                                <br />
+                                @if (user != null && user.Id == comment.UserId)
+                                {
+                                    <a asp-route-deleteCommentId="@comment.Id" class="btn btn-primary">Ta bort</a>
+                                }
+                                @if (user != null)
+                                {
+                                    <a asp-page="./Index" asp-route-postId="@Model.Post.Id" asp-route-replayTextId="@comment.Id" class="btn btn-primary">Reply</a>
+                                    <a asp-route-reportCommentId="@comment.Id" class="btn btn-primary">Report Comment</a>
+                                }
+                            }
 
-                        @if (user != null && user.Id == comment.UserId)
-                        {
-                            <a asp-route-deleteCommentId="@comment.Id" class="btn btn-primary">Ta bort</a>
-                        }
-                        @if (user != null)
-                        {
-                            <a asp-page="./Index" asp-route-postId="@Model.Post.Id" asp-route-replayTextId="@comment.Id" class="btn btn-primary">Reply</a>
-                            <a asp-route-reportCommentId="@comment.Id" class="btn btn-primary">Report Comment</a>
-                        }
-                    }
+                    </li>
                 }
-            </div>
-        }
+            }
+        </ul>
 
         @if (SignInManager.IsSignedIn(User))
         {
             <div class="CommentBox">
                 <form method="post" enctype="multipart/form-data">
-                    <label asp-for="Comment.TextContent">Write your comment here</label>
+                    <label asp-for="Comment.TextContent">Skriv din kommentar här: </label>
                     <br />
-                    <input asp-for="Comment.TextContent" />
+                    <textarea asp-for="Comment.TextContent" type="text" class"form-contrl limited-width-textarea" cols="70" rows="3"></textarea>
+                    <br />
                     <input type="hidden" name="postId" value="@Model.Post.Id" />
                     <input type="hidden" name="replyToId" value="@Model.ReplayId" />
-                    <input type="submit" name="add" class="btn btn-success" value="Post Comment" />
+                    <input type="submit" name="add" class="btn btn-success" value="Post Comment"/>
                 </form>
             </div>
         }
@@ -74,18 +82,29 @@
 }
 else if (Model.SubCategory != null)
 {
-    <div class="">
-        <label>@Model.SubCategory.Name</label>
-        <form method="post" enctype="multipart/form-data">
-            <label asp-for="Post.Title"></label>
-            <br />
-            <input asp-for="Post.Title" />
-            <input type="hidden" name="subCategoryId" value="@Model.SubCategory.Id" />
-            <input type="submit" name="add" class="btn btn-success" value="Create Post" />
-        </form>
+    <div class="card">
+        <div class="card-header">
+        <h2>@Model.SubCategory.Name</h2>
+        </div>
+        @if(user != null)
+        {
+            <form method="post" enctype="multipart/form-data">
+                <label asp-for="Post.Title"></label>
+                <br />
+                <input asp-for="Post.Title" />
+                <br />
+                <label asp-for="Comment.TextContent"></label>
+                <textarea asp-for="Comment.TextContent" type="text" class="form-control limited-width-textarea" cols="25" rows="2"></textarea>
+                <br />
+                <input type="hidden" name="subCategoryId" value="@Model.SubCategory.Id" />
+                <input type="submit" name="add" class="btn btn-success" value="Create Post" />
+            </form>
+        }
+        <br />
+        <ul class="list-group list-group-flush">
         @foreach (var post in Model.Posts)
         {
-            <div class="">
+            <li class="list-group-item">
                 @if (post.SubCategoryId == Model.SubCategory.Id)
                 {
                     <a asp-route-postId="@post.Id"><label>@post.Title</label></a>
@@ -93,6 +112,7 @@ else if (Model.SubCategory != null)
                     <label> | @postUser.UserName</label>
                     <label> | Created on: @post.CreatedDate</label>
                 }
+                
                 @if (user != null && user.Id == post.UserId && post.SubCategoryId == Model.SubCategory.Id)
                 {
                     <a asp-route-deletePostId="@post.Id" class="btn btn-primary">Ta bort</a>
@@ -101,8 +121,9 @@ else if (Model.SubCategory != null)
                 {
                     <a asp-route-reportPostId="@post.Id" class="btn btn-primary">Report Post</a>
                 }
-            </div>
-        }
+                </li>
+            }
+        </ul>
     </div>
 }
 else

@@ -46,11 +46,13 @@ namespace ForumForGaming.Pages.Admin
         {
             if (add == "Create Maincategory")
             {
+                MainCategory.Archived = false;
                 _context.MainCategory.Add(MainCategory);
                 await _context.SaveChangesAsync();
             }
             else if (add == "Create SubCategory")
             {
+                SubCategory.Archived= false;
                 _context.SubCategory.Add(SubCategory);
                 await _context.SaveChangesAsync();
             }

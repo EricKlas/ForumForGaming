@@ -119,7 +119,22 @@ namespace ForumForGaming.Pages
                     Post.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                     Post.SubCategoryId = subCategoryId;
                     _context.Post.Add(Post);
+
                     await _context.SaveChangesAsync();
+
+                    int postid = Post.Id;
+
+                    if (Comment != null)
+                    {
+                        Comment.Reported = false;
+                        Comment.CreatedDate = DateTime.Now;
+                        Comment.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                        Comment.PostId = postid;
+                        Comment.ReplyToId = null;
+                        _context.Comment.Add(Comment);
+                        await _context.SaveChangesAsync();
+                    }
+
                     break;
 
                 case "Create SubCategory":
