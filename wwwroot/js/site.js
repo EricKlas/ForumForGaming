@@ -2,3 +2,8 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
+$(document).ready(function () {
+    $("tr[data-href]").click(function () {
+        window.location.href = $(this).data("href");
+    });
+});

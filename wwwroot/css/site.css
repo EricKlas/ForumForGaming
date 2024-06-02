@@ -19,12 +19,20 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
-  background-color: lightgrey;
+    margin-bottom: 60px;
 }
 
+
+.indexbody {
+    background-image: url("../Pictures/ConsolesBackground.jpg");
+    background-size: cover;
+}
+
+
 img {
-    width: 80px !important;
+    width: 60px !important;
+    height: 60px;
+    vertical-align: top;
 }
 
 .limited-width-textarea
@@ -39,15 +47,84 @@ img {
     display: inline-block;
     padding: 2px 4px;
     border: 1px solid;
+    margin-left: 60px;
+    margin-top: 10px;
 }
 
-.profile-border
-{
-    border: 1px solid;
+.profile-border {
     margin-bottom: 3px;
+    border: 1px solid;
 }
 
-.text-space
-{
+.comment {
+    margin-left: 20px;
+    margin-top: 5px;
+}
 
+.form-postion
+{
+   margin: 20px;
+}
+
+.comment-date
+{
+    float: right;
+}
+.comment-username
+{
+    font-size: 24px;
+}
+
+.clickable-row:hover
+{
+    background-color: lightslategray;
+}
+
+.tr-link
+{
+    cursor: pointer;
+}
+table {
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+.posttext {
+    font-size: 24px;
+    width: 66.66%;
+}
+.author, .created {
+    width: 16.67%;
+}
+
+th {
+    border-bottom: 2px solid black; 
+    padding: 8px;
+}
+
+td {
+    padding: 8px;
+}
+
+tr:not(:first-child) td {
+    border-top: 1px solid #ccc;
+}
+
+.private-bottom-border {
+    border-bottom: 2px solid black;
+    padding: 8px;
+}
+
+.private-send{
+    margin-left: 30px;
+    margin-top: 10px;
+}
+
+.private-send-btn{
+    margin-bottom: 10px;
+}
+
+.private-message
+{
+    margin-left: 10px;
+    margin-bottom: 10px;
 }

@@ -7,55 +7,79 @@
 @{
     var user = await UserManager.GetUserAsync(User);
 }
-
+<body class="indexbody">
 @if (Model.PrivateMessage != null)
 {
-    var sender = await UserManager.FindByIdAsync(Model.PrivateMessage.SenderId);
-    var reciver = await UserManager.FindByIdAsync(Model.PrivateMessage.ReciverId);
+        var sender = await UserManager.FindByIdAsync(Model.PrivateMessage.SenderId);
+        var reciver = await UserManager.FindByIdAsync(Model.PrivateMessage.ReciverId);
+    <div class="card">
 
     <h2>@Model.PrivateMessage.Title</h2>
-    <label>@Model.PrivateMessage.Date</label>
-
-    <label>Sender: @sender.UserName</label>
-    <label>Receiver: @reciver.UserName</label>
-    <br />
-
-    <label>@Model.PrivateMessage.TextContent</label>
+            <label> Skickar: @sender.UserName</label>
+            <label class="private-bottom-border"> Mottagare: @reciver.UserName</label>
+            <br />
+            <label class="private-bottom-border">Skickat: @Model.PrivateMessage.Date</label>
+            <br />
+            <label class="private-message">@Model.PrivateMessage.TextContent</label>
+        </div>
 }
 else if (Model.SendMessage)
 {
+    <div class="card ">
+        <div class="card-header">Skicka ett privat meddelande</div>
     <form method="post">
+                <div class="private-send">
         <label asp-for="PrivateMessage.Title"></label>
+        <br />
         <input asp-for="PrivateMessage.Title" />
-
+        <br />
+        <br />
         <label asp-for="PrivateMessage.TextContent"></label>
+        <br />
         <input asp-for="PrivateMessage.TextContent" />
-
+                <br />
+                <br />
         <label asp-for="PrivateMessage.ReciverId">To: </label>
+        <br />
         <input asp-for="PrivateMessage.ReciverId" />
+        <br />
+        <br />
 
         <input type="hidden" name="SenderId" value="@user.Id" />
-        <input type="submit" class="btn btn-success" value="Send Message" />
+                    <input type="submit" class="btn btn-success private-send-btn" value="Send Message" />
+                </div>
     </form>
+    </div>
 }
 else
 {
-    <a asp-route-sendMessage="True">Create a Private Message</a>
+
+    
+    <div class="card">
+            <h2>Privata meddelanden</h2>
+    <div class="card-header">
+            <a asp-route-sendMessage="True">Create a Private Message</a>
+        </div>
     <br />
     @foreach (var message in Model.PrivateMessages)
     {
         if (message.ReciverId == user.Id)
         {
             var sender = await UserManager.FindByIdAsync(message.SenderId);
-            <a asp-route-PrivateMessageId="@message.Id"><label>@message.Title</label></a>
-            <lable>från @sender.UserName Skickat: @message.Date</lable>
+
+                <div class="card-body private-bottom-border">
+                    <a asp-route-PrivateMessageId="@message.Id"><label>@message.Title från @sender.UserName Skickat: @message.Date</label></a>
+            </div>
         }
         else if (message.SenderId == user.Id)
         {
             var reciver = await UserManager.FindByIdAsync(message.ReciverId);
-            <a asp-route-PrivateMessageId="@message.Id"><label>@message.Title</label></a>
-            <lable>till @reciver.UserName skickat: @message.Date</lable>
+                <div class="card-body private-bottom-border">
+                    <a asp-route-PrivateMessageId="@message.Id"><label>@message.Title till @reciver.UserName skickat: @message.Date</label></a>
+                </div>
         }
         <br />
     }
+    </div>
 }
+</body>
