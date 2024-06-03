@@ -4,6 +4,7 @@
     ViewData["Title"] = "Admin Create";
 }
 
+<body class="admin-background">
 @if (Model.AddItem == "Main")
 {
     <div>
@@ -16,7 +17,8 @@
             <br />
             <input asp-for="MainCategory.Description" />
             <br />
-            <input type="submit" name="add" class="btn btn-success" value="Create Maincategory" />
+            <br />
+            <input type="submit" name="add" class="btn background-color-darker" value="Create Maincategory" />
         </form>
     </div>
 }
@@ -24,9 +26,11 @@ else if (Model.AddItem == "Sub")
 {
     <form method="post" enctype="multipart/form-data">
         <label asp-for="SubCategory.Name"></label>
-        <br />
+        <br />      
         <input asp-for="SubCategory.Name" />
         <br />
+            <label asp-for="SubCategory.MainCategoryId">MainCategories</label>
+            <br />
         <select asp-for="SubCategory.MainCategoryId" name="SubCategory.MainCategoryId">
             <option value="">Select a category</option>
             @foreach (var category in Model.MainCategories)
@@ -35,11 +39,13 @@ else if (Model.AddItem == "Sub")
             }
         </select>
         <br />
-        <input type="submit" name="add" class="btn btn-success" value="Create SubCategory" />
+        <br />
+        <input type="submit" name="add" class="btn background-color-darker" value="Create SubCategory" />
     </form>
 }
 else
 {
-    <a asp-route-CreateItem="Main"><label>Create a Main Category</label></a>
-    <a asp-route-CreateItem="Sub"><label>Create a Sub Category</label></a>
+        <a asp-route-CreateItem="Main" class="btn background-color-darker"><label>Create a Main Category</label></a>
+        <a asp-route-CreateItem="Sub" class="btn background-color-darker"><label>Create a Sub Category</label></a>
 }
+</body>

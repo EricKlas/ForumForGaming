@@ -89,6 +89,10 @@ namespace ForumForGaming.Pages
             {
                 Post = Posts.FirstOrDefault(p => p.Id == postId);
             }
+            if (MainCategory == null && MainCategories.Any())
+            {
+                MainCategory = MainCategories.FirstOrDefault();
+            }
         }
 
         public async Task<IActionResult> OnPostAsync(string add, int subCategoryId, int postId, int? replyToId)

@@ -11,7 +11,7 @@
 <body class="indexbody">
     @if (Model.Post != null)
     {
-        <div class="card">
+        <div class="card background-color">
             <div class="card-header">
                 <h2>@Model.Post.Title</h2>
             </div>
@@ -23,7 +23,7 @@
                         var commentUser = await UserManager.FindByIdAsync(comment.UserId);
                         var replaytext = Model.Comments.FirstOrDefault(c => c.Id == comment.ReplyToId);
 
-                        <li class="list-group-item">
+                        <li class="list-group-item background-color">
                             @if (comment.TextContent == "Comment has been deleted by user!" || comment.TextContent == "Comment has been deleted!")
                             {
                                 <img class="card-img-top profile-border" src="~/profileImages/DefaultImage.jpg" />
@@ -56,11 +56,11 @@
                             {
                                 <br />
                                 <br />
-                                <a asp-page="./Index" asp-route-postId="@Model.Post.Id" asp-route-replayTextId="@comment.Id" class="btn btn-primary">Reply</a>
-                                <a asp-route-reportCommentId="@comment.Id" class="btn btn-primary">Report Comment</a>
+                                <a asp-page="./Index" asp-route-postId="@Model.Post.Id" asp-route-replayTextId="@comment.Id" class="btn background-color-darker">Reply</a>
+                                <a asp-route-reportCommentId="@comment.Id" class="btn background-color-darker">Report Comment</a>
                                 @if (user.Id == comment.UserId)
                                 {
-                                    <a asp-route-deleteCommentId="@comment.Id" class="btn btn-primary">Ta bort</a>
+                                    <a asp-route-deleteCommentId="@comment.Id" class="btn background-color-darker">Ta bort</a>
                                 }
                             }
                         </li>
@@ -74,11 +74,11 @@
                     <form method="post" enctype="multipart/form-data" class="form-postion">
                         <label asp-for="Comment.TextContent">Skriv din kommentar här: </label>
                         <br />
-                        <textarea asp-for="Comment.TextContent" type="text" class"form-contrl limited-width-textarea" cols="70" rows="3"></textarea>
+                        <textarea asp-for="Comment.TextContent" type="text" class="form-contrl limited-width-textarea" cols="70" rows="3"></textarea>
                         <br />
                         <input type="hidden" name="postId" value="@Model.Post.Id" />
                         <input type="hidden" name="replyToId" value="@Model.ReplayId" />
-                        <input type="submit" name="add" class="btn btn-success" value="Post Comment" />
+                        <input type="submit" name="add" class="btn background-color-darker" value="Post Comment" />
                     </form>
                 </div>
             }
@@ -86,7 +86,7 @@
     }
     else if (Model.SubCategory != null)
     {
-        <div class="card">
+        <div class="card background-color">
             <div class="card-header">
                 <h2>@Model.SubCategory.Name</h2>
             </div>
@@ -101,30 +101,44 @@
                     <textarea asp-for="Comment.TextContent" type="text" class="form-control limited-width-textarea" cols="25" rows="2"></textarea>
                     <br />
                     <input type="hidden" name="subCategoryId" value="@Model.SubCategory.Id" />
-                    <input type="submit" name="add" class="btn btn-success" value="Create Post" />
+                    <input type="submit" name="add" class="btn background-color-darker" value="Create Post" />
                 </form>
             }
             <br />
-            <table>
+            <table class="background-color-darker-table">
+                <thead>
                 <tr>
                     <th>Titel</th>
                     <th>Författare</th>
                     <th>Skapad</th>
-                </tr>
+                    <th></th>
+                    <th></th>
+                    </tr>
+                </thead>
 
-
+                <tbody>
                 @foreach (var post in Model.Posts)
                 {
                     if (post.SubCategoryId == Model.SubCategory.Id)
                     {
                         var postUser = await UserManager.FindByIdAsync(post.UserId);
-                        <tr data-href="@Url.Action("PostClicked", new { postId = post.Id })" class="clickable-row tr-link">
+                        <tr data-href="@Url.Action("PostClicked", new { postId = post.Id })" class="clickable-row background-color-darker">
                             <td class="posttext">@post.Title</td>
                             <td class="author">@postUser.UserName</td>
                             <td class="created">@post.CreatedDate.ToString("yyyy-MM-dd")</td>
+                                @if (user != null && user.Id == post.UserId && post.SubCategoryId == Model.SubCategory.Id)
+                                {
+                                    <td class="postbtn"><a asp-route-deletePostId="@post.Id" class="btn admin-background-hover">Remove</a></td>
+                                    
+                                }
+                                @if (user != null && post.SubCategoryId == Model.SubCategory.Id)
+                                {
+                                    <td class="postbtn"><a asp-route-reportPostId="@post.Id" class="btn admin-background-hover">Report</a></td>
+                                }
                         </tr>
                     }
                 }
+                </tbody>
             </table>
         </div>
     }
@@ -134,25 +148,27 @@
         {
             if (category.Archived != true)
             {
-                <div class="card">
+                <div class="card background-color">
                     <div class="card-header">
                         <h2>@category.Title</h2>
                         <br />
                         <label>@category.Description</label>
                     </div>
-                    @foreach (var subCategory in Model.SubCategories)
-                    {
-                        if (subCategory.Archived != true)
+                    <table class="background-color-darker-table">
+                        <tbody>
+                        @foreach (var subCategory in Model.SubCategories)
                         {
-                            if (@category.Id == subCategory.MainCategoryId)
+                            if (category.Id == subCategory.MainCategoryId && subCategory.Archived == false)
                             {
-                                <div class="card-body">
-                                    <a asp-route-subCategoryId="@subCategory.Id" class="btn btn-primary"><label>@subCategory.Name</label></a>
-                                </div>
+                                    <tr data-href="@Url.Action("PostClicked", new { subCategoryId = subCategory.Id })" class="clickable-row tr-link background-color-darker">
+                                    <td class="posttext">@subCategory.Name</td>
+                                </tr>
                             }
                         }
-                    }
+                        </tbody>
+                    </table>
                 </div>
+            }
             }
         }
     }

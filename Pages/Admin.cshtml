@@ -2,24 +2,25 @@
 @model ForumForGaming.Pages.AdminModel
 @{
 }
-<ul>
-    <li>
-        <a class="btn btn-primary" asp-area="" asp-page="/Admin/AdminChange">Admin Change</a>
+<body class="admin-background">
+<ul class="styled-list">
+    <li data-href="/Admin/AdminChange" class="clickable-item">
+            <a class="btn background-color-darker">Admin Change</a>
     </li>
-    <br />
-    <li>
-        <a class="btn btn-primary" asp-area="" asp-page="/Admin/AdminCreate">Admin Create</a>
+    <li data-href="/Admin/AdminCreate" class="clickable-item">
+            <a class="btn background-color-darker">Admin Create</a>
     </li>
-    <br />
-    <li>
-        <a class="btn btn-primary" asp-area="" asp-page="/Admin/AdminDelete">Admin Deleted</a>
+    <li data-href="/Admin/AdminDelete" class="clickable-item">
+            <a class="btn background-color-darker">Admin Delete</a>
     </li>
-    <br />
-    <li>
-        <a class="btn btn-primary" asp-area="" asp-page="/Admin/AdminReported">Admin Reported</a>
+    <li data-href="/Admin/AdminReported" class="clickable-item">
+            <a class="btn background-color-darker">Admin Reported</a>
     </li>
-    <br />
-    <li>
-        <a class="btn btn-primary" asp-area="" asp-page="/Admin/AdminManageRoles">Admin ChangeRoles</a>
+    <li data-href="/Admin/AdminManageRoles" class="clickable-item">
+            <a class="btn background-color-darker">Admin ChangeRoles</a>
     </li>
-</ul>
+    <li data-href="/Admin/AdminSiteInfo" class="clickable-item">
+            <a class="btn background-color-darker">Admin Site Info</a>
+    </li>
+    </ul>
+</body>

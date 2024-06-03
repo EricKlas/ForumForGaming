@@ -6,4 +6,8 @@ $(document).ready(function () {
     $("tr[data-href]").click(function () {
         window.location.href = $(this).data("href");
     });
+
+    $("li[data-href]").click(function () {
+        window.location.href = $(this).data("href");
+    });
 });

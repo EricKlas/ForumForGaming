@@ -12,7 +12,7 @@
     {
         var sender = await UserManager.FindByIdAsync(Model.PrivateMessage.SenderId);
         var reciver = await UserManager.FindByIdAsync(Model.PrivateMessage.ReciverId);
-        <div class="card">
+        <div class="card background-color">
 
             <h2>@Model.PrivateMessage.Title</h2>
             <label> Skickar: @sender.UserName</label>
@@ -25,7 +25,7 @@
     }
     else if (Model.SendMessage)
     {
-        <div class="card ">
+        <div class="card background-color">
             <div class="card-header">Skicka ett privat meddelande</div>
             <form method="post">
                 <div class="private-send">
@@ -36,7 +36,7 @@
                     <br />
                     <label asp-for="PrivateMessage.TextContent"></label>
                     <br />
-                    <input asp-for="PrivateMessage.TextContent" />
+                    <textarea asp-for="PrivateMessage.TextContent" type="text" class="form-control limited-width-textarea" cols="70" rows="3"></textarea>
                     <br />
                     <br />
                     <label asp-for="PrivateMessage.ReciverId">To: </label>
@@ -55,10 +55,10 @@
     {
 
 
-        <div class="card">
+        <div class="card background-color">
             <h2>Privata meddelanden</h2>
             <div class="card-header">
-                <a asp-route-sendMessage="True">Create a Private Message</a>
+                <a asp-route-sendMessage="True" class="btn background-color-darker">Create a Private Message</a>
             </div>
             <br />
             @foreach (var message in Model.PrivateMessages)
@@ -68,14 +68,14 @@
                     var sender = await UserManager.FindByIdAsync(message.SenderId);
 
                     <div class="card-body private-bottom-border">
-                        <a asp-route-PrivateMessageId="@message.Id"><label>@message.Title från @sender.UserName Skickat: @message.Date</label></a>
+                        <a asp-route-PrivateMessageId="@message.Id" class="btn background-color-darker"><label class="private-title">@message.Title</label><br /><label>Från @sender.UserName Skickat: @message.Date</label></a>
                     </div>
                 }
                 else if (message.SenderId == user.Id)
                 {
                     var reciver = await UserManager.FindByIdAsync(message.ReciverId);
                     <div class="card-body private-bottom-border">
-                        <a asp-route-PrivateMessageId="@message.Id"><label>@message.Title till @reciver.UserName skickat: @message.Date</label></a>
+                        <a asp-route-PrivateMessageId="@message.Id" class="btn background-color-darker"><label class="private-title">@message.Title</label><br /><label>Till @reciver.UserName Skickat: @message.Date</label></a>
                     </div>
                 }
                 <br />

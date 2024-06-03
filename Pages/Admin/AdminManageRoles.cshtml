@@ -5,27 +5,34 @@
 @model ForumForGaming.Pages.Admin.AdminManageRolesModel
 @{
 }
+
+<body class="admin-background">
 @if (@Model.ChangeAdmin == "RemoveAdmin")
 {
-    <ul>
-        @foreach (var user in Model.AdminUsers)
-        {
-            <li>@user.UserName (@user.Email)</li>
-            <li><a asp-route-removeAdmin="@user.Id">Remove Admin</a></li>
-        }
-    </ul>
+        <div class="admin-container">
+            @foreach (var user in Model.AdminUsers)
+            {
+                <div class="admin-group background-color">
+                    <span >@user.UserName (@user.Email)</span>
+                    <a asp-route-removeAdmin="@user.Id" class="btn background-color-darker">Remove Admin</a>
+                </div>
+            }
+        </div>
 }
 else if (@Model.ChangeAdmin == "AddAdmin")
 {
+    <h4>Make someone Admin</h4>
     <form method="post">
-        <label asp-for="@Model.UserEmail"></label>
+        <label asp-for="@Model.UserEmail">Email: </label>
+        <br />
         <input asp-for="@Model.UserEmail"/>
-        <input type="submit" class="btn btn-success" value="Add admin" />
+            <input type="submit" class="btn background-color-darker" value="Add admin" />
     </form>
 }
 
 else
 {
-    <a asp-route-changeUser="RemoveAdmin"><label>Remove an admin user</label></a>
-    <a asp-route-changeUser="AddAdmin"><label>Add a new admin user</label></a>
-}
+        <a asp-route-changeUser="RemoveAdmin" class="btn background-color-darker"><label>Remove an admin user</label></a>
+        <a asp-route-changeUser="AddAdmin" class="btn background-color-darker"><label>Add a new admin user</label></a>
+    }
+</body>

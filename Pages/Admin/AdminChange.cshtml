@@ -2,13 +2,13 @@
 @model ForumForGaming.Pages.Admin.AdminChangeModel
 @{
 }
-
+<body class="admin-background">
 @if (Model.MainCategory != null)
 {
     <div>
         <form method="post">
             <label asp-for="MainCategory.Title"></label>
-
+            <br />
             <input asp-for="MainCategory.Title" value="@Model.MainCategory.Title" />
             <br />
             <label asp-for="MainCategory.Description"></label>
@@ -22,7 +22,7 @@
                 <option value="false">False</option>
             </select>
             <br />
-            <input type="submit" name="change" class="btn btn-success" value="Change Maincategory" />
+            <input type="submit" name="change" class="btn background-color-darker" value="Change Maincategory" />
         </form>
     </div>
 }
@@ -34,6 +34,7 @@ else if (Model.SubCategory != null)
         <input asp-for="SubCategory.Name" value="@Model.SubCategory.Name"/>
         <br />
         <label asp-for="SubCategory.MainCategoryId"></label>
+        <br />  
         <select asp-for="SubCategory.MainCategoryId">
             <option value="">Select a category</option>
             @foreach (var category in Model.MainCategories)
@@ -49,29 +50,28 @@ else if (Model.SubCategory != null)
             <option value="false">False</option>
         </select>
         <br />
-        <input type="submit" name="change" class="btn btn-success" value="Change SubCategory" />
+        <input type="submit" name="change" class="btn background-color-darker" value="Change SubCategory" />
     </form>
 }
-else if (Model.ChangeItem == "Main")
-{
-    @foreach(var category in Model.MainCategories)
-    {
-        <label>@category.Title</label>
-        <a asp-route-mainCategoryId="@category.Id">Change Category</a>
-    <br />
-    }
-}
-else if (Model.ChangeItem == "Sub")
-{
-    @foreach(var category in Model.SubCategories)
-    {
-        <label>@category.Name</label>
 
-        <a asp-route-subCategoryId="@category.Id">Change Category</a>
-    }
-}
 else
 {
-    <a asp-route-changeItem="Main"><label>Change a Main Category</label></a>
-    <a asp-route-changeItem="Sub"><label>Change a Sub Category</label></a>
-}
+    <div class="category-container">
+        @foreach (var category in Model.MainCategories)
+        {
+            <div class="category-group">
+                <a asp-route-mainCategoryId="@category.Id" class="btn background-color-darker main-category-btn">@category.Title</a>
+                <div class="subcategory-container">
+                    @foreach (var subCategory in Model.SubCategories)
+                    {
+                        if (category.Id == subCategory.MainCategoryId)
+                        {
+                            <a asp-route-subCategoryId="@subCategory.Id" class="btn background-color-darker sub-category-btn">@subCategory.Name</a>
+                        }
+                    }
+                </div>
+            </div>
+        }
+    </div>
+    }
+</body>

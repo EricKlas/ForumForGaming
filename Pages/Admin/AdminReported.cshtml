@@ -4,56 +4,74 @@
 @model ForumForGaming.Pages.Admin.AdminReportedModel
 @{
 }
-@if (Model.ReportedCategory == "Comment")
-{
-    <h3>Reported Comments:</h3>
-    @foreach (var reported in Model.Comments) 
+
+<body class="admin-background">
+    @if (Model.ReportedCategory == "Comment")
     {
-        if(reported.Reported == true)
-        {
-            var commentUser = await UserManager.FindByIdAsync(reported.UserId);
-            <label>@reported.TextContent</label>
-            <br />
-            <label>@commentUser.Email</label>
-            <br />
-            <label>@reported.CreatedDate</label>
-            <br />
+        <div class="card background-color">
+            <h3>Reported Comments:</h3>
+            <ul class="list-group list-group-flush">
+                @foreach (var reported in Model.Comments)
+                {
+                    if (reported.Reported == true)
+                    {
+                        var commentUser = await UserManager.FindByIdAsync(reported.UserId);
+                        <li class="list-group-item background-color">
 
-            <form method="post">
-                <input type="hidden" name="CommentId" value="@reported.Id" />
-                <input type="submit" name="reported" class="btn btn-success" value="Ignore" />
-                <input type="submit" name="reported" class="btn btn-success" value="Delete" />
-            </form>
-        }
+
+                            <label>Reported Text: @reported.TextContent</label>
+                            <br />
+                            <label>User: @commentUser.UserName</label>
+                            <br />
+                            <label>Sent: @reported.CreatedDate</label>
+                            <br />
+
+                            <form method="post">
+                                <input type="hidden" name="CommentId" value="@reported.Id" />
+                                <input type="submit" name="reported" class="btn background-color-darker" value="Ignore" />
+                                <input type="submit" name="reported" class="btn background-color-darker" value="Delete" />
+                            </form>
+                        </li>
+                    }
+
+                }
+            </ul>
+        </div>
     }
-}
-else if (Model.ReportedCategory == "Post")
-{
-    <h3>Reported post:</h3>
-    @foreach (var reported in Model.Posts)
+    else if (Model.ReportedCategory == "Post")
     {
-        if(reported.Reported == true)
-        {
-            var postUser = await UserManager.FindByIdAsync(reported.UserId);
-            <label>@reported.Title</label>
-            <br />
-            <label>@postUser.Email</label>
-            <br />
-            <label>@reported.CreatedDate</label>
+        <div class="card background-color">
+            <h3>Reported post:</h3>
+            <ul class="list-group list-group-flush">
+                @foreach (var reported in Model.Posts)
+                {
+                    if (reported.Reported == true)
+                    {
+                        var postUser = await UserManager.FindByIdAsync(reported.UserId);
+                        <li class="list-group-item background-color">
+                            <label>Titel: @reported.Title</label>
+                            <br />
+                            <label>User: @postUser.UserName</label>
+                            <br />
+                            <label>Created: @reported.CreatedDate</label>
 
-            <form method="post">
-                <input type="hidden" name="PostId" value="@reported.Id" />
-                <input type="submit" name="reported" class="btn btn-success" value="Ignore" />
-                <input type="submit" name="reported" class="btn btn-success" value="Delete" />
-            </form>
-        }
+                            <form method="post">
+                                <input type="hidden" name="PostId" value="@reported.Id" />
+                                <input type="submit" name="reported" class="btn background-color-darker" value="Ignore" />
+                                <input type="submit" name="reported" class="btn background-color-darker" value="Delete" />
+                            </form>
+                        </li>
+                    }
+                }
+            </ul>
+        </div>
     }
-}
 
 
 
-else
-{
-    <a asp-route-reportedCategory="Comment"><label>Reported Comments</label></a>
-    <a asp-route-reportedCategory="Post"><label>Reported Posts</label></a>
-}
+    else
+    {
+        <a asp-route-reportedCategory="Comment" class="btn background-color-darker"><label>Reported Comments</label></a>
+        <a asp-route-reportedCategory="Post" class="btn background-color-darker"><label>Reported Posts</label></a>
+    }
+</body>

@@ -74,11 +74,6 @@ img {
     font-size: 24px;
 }
 
-.clickable-row:hover
-{
-    background-color: lightslategray;
-}
-
 .tr-link
 {
     cursor: pointer;
@@ -105,11 +100,11 @@ td {
 }
 
 tr:not(:first-child) td {
-    border-top: 1px solid #ccc;
+    border-top: 2px solid #ccc;
 }
 
 .private-bottom-border {
-    border-bottom: 2px solid black;
+    border-bottom: 3px solid black;
     padding: 8px;
 }
 
@@ -128,11 +123,141 @@ tr:not(:first-child) td {
     margin-bottom: 10px;
 }
 
+.private-title
+{
+    font-weight: 500;
+    justify-content: left;
+}
+
+.admin-background {
+    background-color: #4f200f;
+    color: #fff;
+}
+
+.admin-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 20px;
+}
+
+.admin-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+    .admin-group span {
+        font-size: 16px;
+        color: #333;
+    }
+
+.admin-background-hover {
+    background-color: #4f200f;
+    color: #fff;
+}
+    .admin-background-hover:hover {
+        background-color: rgba(79,32,15, 0.5);
+    }
+
+
 .navbar-color {
-    background-color: darkolivegreen !important;
+    background-color: #ffc18c !important;
 }
 
 .footer-bar {
     background-image: none;
-    background-color: darkolivegreen !important;
+    background-color: #ffc18c !important;
 }
+
+.category-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    overflow-x: auto;
+}
+
+.category-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.main-category-btn {
+    font-size: 1.5em;
+    padding: 10px 20px;
+    margin-bottom: 10px;
+}
+
+.subcategory-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin: 0 20px;
+}
+
+.sub-category-btn {
+    font-size: 1em;
+    padding: 5px 10px;
+}
+
+.background-color {
+    background-color: #ffc18c !important;
+    color: black;
+}
+.background-color-darker-nohover {
+    background-color: #da6d42;
+}
+
+.background-color-darker {
+    background-color: #da6d42;
+}
+
+    .background-color-darker:hover {
+        background-color: rgba(218, 109, 66, 0.5);
+    }
+
+table.background-color-darker-table tbody tr.background-color-darker {
+    background-color: #da6d42;
+}
+
+    table.background-color-darker-table tbody tr.background-color-darker:hover {
+        background-color: rgba(218, 109, 66, 0.5);
+    }
+
+table.background-color-darker-table thead {
+    background-color: #da6d42;
+}
+
+.clickable-row {
+    cursor: pointer;
+}
+
+
+.styled-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+    .styled-list .clickable-item {
+        padding: 8px;
+        border-top: 1px solid #ccc;
+        cursor: pointer;
+    }
+
+        .styled-list .clickable-item:first-child {
+            border-top: none;
+        }
+
+    .styled-list a {
+        text-decoration: none;
+        font-size: 24px;
+        width: 100%;
+        display: block;
+    }

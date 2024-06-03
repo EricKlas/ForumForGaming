@@ -1,0 +1,20 @@
+﻿@page
+@model ForumForGaming.Pages.Admin.AdminSiteInfoModel
+@{
+}
+<body class="admin-background">
+    <div class="card background-color-darker-nohover" style="width: 18rem;">
+        <div class="card-header">
+            Info
+        </div>
+        <ul class="list-group list-group-flush card card background-color">
+            <li class="list-group-item card background-color">MainCategories: @Model.DatabaseInfo.MainCategoryCount</li>
+            <li class="list-group-item card background-color">SubCategories: @Model.DatabaseInfo.SubCategoryCount</li>
+            <li class="list-group-item card background-color">Posts: @Model.DatabaseInfo.PostCount</li>
+            <li class="list-group-item card background-color">Comments: @Model.DatabaseInfo.CommentCount</li>
+            <li class="list-group-item card background-color">Users: @Model.DatabaseInfo.RegistratedUserCount</li>
+            <li class="list-group-item card background-color">Archived MainCategories: @Model.DatabaseInfo.ArchivedMainCategoryCount</li>
+            <li class="list-group-item card background-color">Archived SubCategories:  @Model.DatabaseInfo.ArchivedSubCategoryCount</li>
+        </ul>
+    </div>
+</body>

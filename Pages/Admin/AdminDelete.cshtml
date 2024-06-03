@@ -2,10 +2,12 @@
 @model ForumForGaming.Pages.Admin.AdminDeleteModel
 @{
 }
+<body class="admin-background">
 @if (Model.DeleteItem == "Main")
 {
     <div>
         <form method="post">
+            <h4 asp-for="MainCategoryId">Maincategory to archive</h4>
             <select asp-for="MainCategoryId" name="MainCategoryId">
                 <option value="">Select a category</option>
                 @foreach (var category in Model.MainCategories)
@@ -14,6 +16,7 @@
                 }
             </select>
             <br />
+            <br />
             <input type="submit" name="delete" class="btn btn-success" value="Archive MainCategory" />
         </form>
     </div>
@@ -21,6 +24,7 @@
 else if (Model.DeleteItem == "Sub")
 {
     <form method="post">
+        <h4 asp-for="SubCategoryId">Subcategory to archive</h4> 
         <select asp-for="SubCategoryId" name="SubCategoryId">
             <option value="">Select a category</option>
             @foreach (var category in Model.SubCategories)
@@ -29,11 +33,13 @@ else if (Model.DeleteItem == "Sub")
             }
         </select>
         <br />
+        <br />
         <input type="submit" name="delete" class="btn btn-success" value="Archive SubCategory" />
     </form>
 }
 else
 {
-    <a asp-route-CreateItem="Main"><label>Delete a Main Category</label></a>
-    <a asp-route-CreateItem="Sub"><label>Delete a Sub Category</label></a>
+    <a asp-route-CreateItem="Main" class="btn background-color-darker"><label>Delete a Main Category</label></a>
+    <a asp-route-CreateItem="Sub" class="btn background-color-darker"><label>Delete a Sub Category</label></a>
 }
+</body>
