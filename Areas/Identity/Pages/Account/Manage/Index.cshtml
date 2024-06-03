@@ -26,8 +26,11 @@
                     <label asp-for="Input.ProfilePicture"></label>
                     <input type="file" asp-for="Input.ProfilePicture" class="form-control" />
                 </div>
-                <img class="card-img-top" src="~/profileImages/@user.ProfilePicture" />
-                <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
+                <div class="form-floating mb-3">
+                    <img class="card-img-top" src="~/profileImages/@user.ProfilePicture" />
+                    <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
+                </div>
+
             </form>
         </div>
     </div>
