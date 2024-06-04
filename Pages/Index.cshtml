@@ -22,7 +22,6 @@
                     {
                         var commentUser = await UserManager.FindByIdAsync(comment.UserId);
                         var replaytext = Model.Comments.FirstOrDefault(c => c.Id == comment.ReplyToId);
-
                         <li class="list-group-item background-color">
                             @if (comment.TextContent == "Comment has been deleted by user!" || comment.TextContent == "Comment has been deleted!")
                             {
@@ -40,16 +39,29 @@
                                 <br />
                                 <label class="comment">@comment.TextContent</label>
                             }
-
                             @if (replaytext != null)
                             {
-                                <br />
-                                <span class="list-group-item gray-background">
-                                    <img class="card-img-top profile-border" src="~/profileImages/DefaultImage.jpg" />
-                                    <label> Deleted user, Datum: @replaytext.CreatedDate</label>
+                                @if (replaytext.TextContent == "Comment has been deleted by user!" || replaytext.TextContent == "Comment has been deleted!")
+                                {
                                     <br />
-                                    <label class="comment">@replaytext.TextContent</label>
-                                </span>
+                                    <span class="list-group-item gray-background">
+                                        <img class="card-img-top profile-border" src="~/profileImages/DefaultImage.jpg" />
+                                        <label> Deleted user, Datum: @replaytext.CreatedDate</label>
+                                        <br />
+                                        <label class="comment">@replaytext.TextContent</label>
+                                    </span>
+                                }
+                                else
+                                {
+                                    <br />
+                                    var replayuser = await UserManager.FindByIdAsync(replaytext.UserId);
+                                    <span class="list-group-item gray-background">
+                                        <img class="card-img-top profile-border" src="~/profileImages/DefaultImage.jpg" />
+                                        <label> @replayuser, Datum: @replaytext.CreatedDate</label>
+                                        <br />
+                                        <label class="comment">@replaytext.TextContent</label>
+                                    </span>
+                                }
                             }
 
                             @if (user != null)
@@ -107,37 +119,37 @@
             <br />
             <table class="background-color-darker-table">
                 <thead>
-                <tr>
-                    <th>Titel</th>
-                    <th>Författare</th>
-                    <th>Skapad</th>
-                    <th></th>
-                    <th></th>
+                    <tr>
+                        <th>Titel</th>
+                        <th>Författare</th>
+                        <th>Skapad</th>
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
 
                 <tbody>
-                @foreach (var post in Model.Posts)
-                {
-                    if (post.SubCategoryId == Model.SubCategory.Id)
+                    @foreach (var post in Model.Posts)
                     {
-                        var postUser = await UserManager.FindByIdAsync(post.UserId);
-                        <tr data-href="@Url.Action("PostClicked", new { postId = post.Id })" class="clickable-row background-color-darker">
-                            <td class="posttext">@post.Title</td>
-                            <td class="author">@postUser.UserName</td>
-                            <td class="created">@post.CreatedDate.ToString("yyyy-MM-dd")</td>
+                        if (post.SubCategoryId == Model.SubCategory.Id)
+                        {
+                            var postUser = await UserManager.FindByIdAsync(post.UserId);
+                            <tr data-href="@Url.Action("PostClicked", new { postId = post.Id })" class="clickable-row background-color-darker">
+                                <td class="posttext">@post.Title</td>
+                                <td class="author">@postUser.UserName</td>
+                                <td class="created">@post.CreatedDate.ToString("yyyy-MM-dd")</td>
                                 @if (user != null && user.Id == post.UserId && post.SubCategoryId == Model.SubCategory.Id)
                                 {
                                     <td class="postbtn"><a asp-route-deletePostId="@post.Id" class="btn admin-background-hover">Remove</a></td>
-                                    
+
                                 }
                                 @if (user != null && post.SubCategoryId == Model.SubCategory.Id)
                                 {
                                     <td class="postbtn"><a asp-route-reportPostId="@post.Id" class="btn admin-background-hover">Report</a></td>
                                 }
-                        </tr>
+                            </tr>
+                        }
                     }
-                }
                 </tbody>
             </table>
         </div>
@@ -156,20 +168,20 @@
                     </div>
                     <table class="background-color-darker-table">
                         <tbody>
-                        @foreach (var subCategory in Model.SubCategories)
-                        {
-                            if (category.Id == subCategory.MainCategoryId && subCategory.Archived == false)
+                            @foreach (var subCategory in Model.SubCategories)
                             {
+                                if (category.Id == subCategory.MainCategoryId && subCategory.Archived == false)
+                                {
                                     <tr data-href="@Url.Action("PostClicked", new { subCategoryId = subCategory.Id })" class="clickable-row tr-link background-color-darker">
-                                    <td class="posttext">@subCategory.Name</td>
-                                </tr>
+                                        <td class="posttext">@subCategory.Name</td>
+                                    </tr>
+                                }
                             }
-                        }
                         </tbody>
                     </table>
                 </div>
             }
-            }
         }
+    }
     }
 </body>

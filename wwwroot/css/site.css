@@ -134,6 +134,11 @@ tr:not(:first-child) td {
     color: #fff;
 }
 
+.logo
+{
+    height: 50px;
+}
+
 .admin-container {
     display: flex;
     flex-direction: column;

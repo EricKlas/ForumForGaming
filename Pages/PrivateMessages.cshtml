@@ -70,6 +70,7 @@
                     <div class="card-body private-bottom-border">
                         <a asp-route-PrivateMessageId="@message.Id" class="btn background-color-darker"><label class="private-title">@message.Title</label><br /><label>Från @sender.UserName Skickat: @message.Date</label></a>
                     </div>
+                    <br />
                 }
                 else if (message.SenderId == user.Id)
                 {
@@ -77,8 +78,8 @@
                     <div class="card-body private-bottom-border">
                         <a asp-route-PrivateMessageId="@message.Id" class="btn background-color-darker"><label class="private-title">@message.Title</label><br /><label>Till @reciver.UserName Skickat: @message.Date</label></a>
                     </div>
+                    <br />
                 }
-                <br />
             }
         </div>
     }
