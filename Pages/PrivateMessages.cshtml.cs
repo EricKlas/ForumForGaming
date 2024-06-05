@@ -42,7 +42,7 @@ namespace ForumForGaming.Pages
         {
             if (PrivateMessage != null)
             {
-                var receiver = await _userManager.FindByEmailAsync(PrivateMessage.ReciverId);
+                var receiver = await _userManager.FindByNameAsync(PrivateMessage.ReciverId);
                 if (receiver != null)
                 {
                     PrivateMessage.ReciverId = receiver.Id;
