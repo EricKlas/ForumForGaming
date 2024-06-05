@@ -30,6 +30,7 @@
                                 <label class="comment-date"> @comment.CreatedDate</label>
                                 <br />
                                 <label class="comment">@comment.TextContent</label>
+                                <br />
                             }
                             else
                             {
@@ -38,13 +39,14 @@
                                 <label class="comment-date"> @comment.CreatedDate</label>
                                 <br />
                                 <label class="comment">@comment.TextContent</label>
+                                <br />
                             }
                             @if (replaytext != null)
                             {
                                 @if (replaytext.TextContent == "Comment has been deleted by user!" || replaytext.TextContent == "Comment has been deleted!")
                                 {
                                     <br />
-                                    <span class="list-group-item gray-background">
+                                    <span class="list-group-item background-color-darker-nohover">
                                         <img class="card-img-top profile-border" src="~/profileImages/DefaultImage.jpg" />
                                         <label> Deleted user, Datum: @replaytext.CreatedDate</label>
                                         <br />
@@ -55,7 +57,7 @@
                                 {
                                     <br />
                                     var replayuser = await UserManager.FindByIdAsync(replaytext.UserId);
-                                    <span class="list-group-item gray-background">
+                                    <span class="list-group-item background-color-darker-nohover">
                                         <img class="card-img-top profile-border" src="~/profileImages/DefaultImage.jpg" />
                                         <label> @replayuser, Datum: @replaytext.CreatedDate</label>
                                         <br />
